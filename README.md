@@ -1,58 +1,56 @@
 # Mac Hardware Info
 
-A simple Python script that collects Mac hardware identifiers and outputs them as a QR code or binary file for use with OpenBubbles.
+Collects Mac hardware identifiers and outputs them as a QR code for use with OpenBubbles.
+
+## Options
+
+There are two ways to use this tool:
+
+### Option 1: Simple JSON Script + HTML Interface (No Dependencies)
+
+The simplest approach with zero pip dependencies:
+
+1. Run the JSON script on your Mac:
+   ```bash
+   python3 mac_hw_info_json.py
+   ```
+
+2. Copy the JSON output
+
+3. Open `mac_hw_info.html` in any web browser
+
+4. Paste the JSON and click "Generate QR Code"
+
+### Option 2: Full Python Script (Requires protobuf)
+
+A more complete script that generates QR codes directly:
+
+```bash
+pip install protobuf
+pip install qrcode[pil]  # Optional, for QR code output
+python3 mac_hw_info.py
+```
 
 ## Requirements
 
 - **macOS** (uses `ioreg`, `sysctl`, and other macOS-specific commands)
 - **Python 3.8+**
-- **protobuf** library: `pip install protobuf`
-- **Optional**: `qrcode` library for QR code output: `pip install qrcode[pil]`
-
-## Installation
-
-1. Clone this repository or download the files:
-   ```bash
-   git clone https://github.com/ochen1/Mac-Hardware-Info.git
-   cd Mac-Hardware-Info
-   ```
-
-2. Install the required Python dependencies:
-   ```bash
-   pip install protobuf
-   ```
-
-3. (Optional) Install qrcode for QR code generation:
-   ```bash
-   pip install qrcode[pil]
-   ```
-
-## Usage
-
-Run the script on your Mac:
-
-```bash
-python3 mac_hw_info.py
-```
-
-### Output Options
-
-1. **With `qrcode` library installed**: The script will display a QR code in the terminal (if supported) and save a PNG image file.
-
-2. **Without `qrcode` library**: The script saves the data to a `.bin` file. You can then use `qrencode` to generate the QR code manually:
-   ```bash
-   qrencode -r mac_hw_info.bin -o qr.png
-   ```
+- For `mac_hw_info.py`: **protobuf** library (`pip install protobuf`)
+- For `mac_hw_info_json.py`: No dependencies (uses only Python standard library)
 
 ## Files
 
-- `mac_hw_info.py` - Main Python script
-- `mac_hw_info.proto` - Protocol Buffer definition file
-- `mac_hw_info_pb2.py` - Generated Protocol Buffer Python module
+| File | Description | Dependencies |
+|------|-------------|--------------|
+| `mac_hw_info_json.py` | Simple script that outputs JSON | None |
+| `mac_hw_info.html` | Self-contained HTML interface for QR generation | None (works in browser) |
+| `mac_hw_info.py` | Full script with protobuf serialization | protobuf |
+| `mac_hw_info.proto` | Protocol Buffer definition | None |
+| `mac_hw_info_pb2.py` | Generated Protocol Buffer module | protobuf |
 
 ## How It Works
 
-The script collects the following hardware information from your Mac:
+The scripts collect the following hardware information from your Mac:
 
 - Product name/model
 - Primary MAC address
